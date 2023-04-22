@@ -1,0 +1,85 @@
+import time
+import platform
+import pyautogui
+import pyperclip
+
+
+# message box
+def alert(text, title='Alert'):
+    pyautogui.alert(text=text, title=title, button='OK')
+
+
+def confirm(text, title='Confirm'):
+    ret = pyautogui.confirm(text=text, title=title, buttons=['OK', 'Cancel'])
+    return ret == 'OK'
+
+
+# clipboard and keyboard control
+def clip(text):
+    pyperclip.copy(text)
+
+
+def snap(fname=None):
+    if fname is None:
+        return pyautogui.screenshot()
+    return pyautogui.screenshot(fname)
+
+
+def write(text):
+    pyautogui.write(text, interval=0.4)
+
+
+def hotkey(*args):
+    pyautogui.hotkey(*args)
+    time.sleep(0.4)
+
+
+def paste():
+    if platform.system() == 'Darwin':
+        hotkey('command', 'v')
+    else:
+        hotkey('ctrl', 'v')
+
+
+# Mouse control
+def move(x, y):
+    pyautogui.moveTo(x, y, duration=0.4)
+
+
+def click(x=None, y=None, clicks=1):
+    if x is not None and y is not None:
+        move(x, y)
+    pyautogui.click(clicks=clicks)
+
+
+def dclick(x=None, y=None):
+    click(x, y, 2)
+
+
+def rclick(x=None, y=None, clicks=1):
+    if x is not None and y is not None:
+        move(x, y)
+    pyautogui.click(button='right', clicks=clicks)
+
+
+def mdown(x=None, y=None):
+    if x is not None and y is not None:
+        move(x, y)
+    pyautogui.mouseDown()
+
+
+def mup(x=None, y=None):
+    if x is not None and y is not None:
+        move(x, y)
+    pyautogui.mouseUp()
+
+
+def scroll(step):
+    pyautogui.scroll(step)
+
+
+def click_and_input(x, y, text):
+    clip(text)
+    move(x, y)
+    click()
+    paste()

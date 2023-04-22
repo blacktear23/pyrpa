@@ -1,0 +1,6 @@
+.DS_Store
+*.png
+*.pyc
+build/*
+dist/*
+pyrpa.egg-info/*
