@@ -101,7 +101,7 @@ pyrpa combines PyAutoGUI, pyperclip, selenium, OpenCV-Python to do the RPA jobs.
 | is_macos() | bool | Return is MacOS |
 
 
-## Special Usages
+## Tips
 
 * Input text: If some character cannot input by just type keyboard, please use clipboard to copy and paste to input box. For example, you can use `click_and_input` function.
 * If button image will present more than one at screen, you can use `find_image_element2` to locate bigger image at screen and then find your element image in location image.
