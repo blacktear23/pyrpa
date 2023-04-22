@@ -44,7 +44,7 @@ pyrpa is combine PyAutoGUI, pyperclip, selenium, OpenCV-Python to do the RPA job
 
 | Function | Returns | Description |
 | -------- | ------- |----------- |
-| init(element_ratio) | None | Initialize image identification base parameters. element_ratio is define the element image resize ratio (width, height) |
+| init(element_ratio=(1, 1)) | None | Initialize image identification base parameters. element_ratio is define the element image resize ratio (width, height) |
 | snap(fname=None) | None or Image object | Create screen snapshot. If fname setted will save screen snapshot to file. |
 | find\_image\_element(element, pmode='center', debug=True, threshold=None) | found: bool, x: int, y: int | Find element image position at screen, return whether founded and position. pmode: position mode, `'center'` means return center position of element image, `'topleft'` means top left position; threshold: confidence threshold for image find, None means use system default (0.8). |
 | find\_image\_element2(location, element, pmode='center', debug=True, threshold=None) | found: bool, x: int, y: int | Find element image position at screen with bigger location image found at screen, return whether founded and position. pmode: position mode; threshold: confidence threshold for image find. |
