@@ -6,7 +6,6 @@ dependence = [
     'pyautogui',
     'pyperclip',
     'selenium',
-    'matplot',
 ]
 
 desc = 'pyrpa lets Python control the Chrome browser, mouse and keyboard to automatic do jobs.'

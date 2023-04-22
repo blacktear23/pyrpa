@@ -1,7 +1,6 @@
 import cv2
 import pyautogui
 import numpy as np
-from matplotlib import pyplot as plt
 from .gui import move, click, paste
 from .utils import wait
 
@@ -140,7 +139,6 @@ def scale_find_image(element, ratio_from=0.2, ratio_to=4, step=0.1, pmode='cente
     elem_img_g = cv2.cvtColor(elem_img, cv2.COLOR_BGR2GRAY)
     ratio = ratio_to
     found = False
-    found_ratio = ratio
     x, y, h, w = 0, 0, 0, 0
 
     if threshold is None:
@@ -154,7 +152,6 @@ def scale_find_image(element, ratio_from=0.2, ratio_to=4, step=0.1, pmode='cente
         if max_val > max_rval:
             max_rval = max_val
             found = True
-            found_ratio = ratio
             x, y = max_loc[0], max_loc[1]
             h, w = relem_img_g.shape[0], relem_img_g.shape[1]
             break
