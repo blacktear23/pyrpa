@@ -1,2 +1,2 @@
 lint:
-	@flake8 --exclude="./build/,./dist" --ignore="E501"
+	@flake8 --exclude="./build/" --ignore="E501"
