@@ -8,7 +8,11 @@ Before install package you should make sure OpenCV and python-tk is installed.
 
 ### MacOS
 
-You should install OpenCV and make sure python-tk is installed (for message box support)
+You should install OpenCV and make sure python-tk is installed (for message box support), then install package by:
+
+```
+python3 setup.py install
+```
 
 Install OpenCV
 
@@ -32,7 +36,7 @@ sudo apt-get install -y python3-opencv python3-tk scrot xclip xsel
 
 ## System Design
 
-pyrpa is combine PyAutoGUI, pyperclip, selenium, OpenCV-Python to do the RPA jobs.
+pyrpa combines PyAutoGUI, pyperclip, selenium, OpenCV-Python to do the RPA jobs.
 
 * PyAutoGUI and pyperclip: control clipboard, mouse and keyboard operations.
 * selenium: control Chrome browser.
