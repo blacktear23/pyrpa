@@ -29,3 +29,73 @@ You can just install python3-opencv to make sure OpenCV installed and then you s
 ```
 sudo apt-get install -y python3-opencv python3-tk scrot xclip xsel
 ```
+
+## System Design
+
+pyrpa is combine PyAutoGUI, pyperclip, selenium, OpenCV-Python to do the RPA jobs.
+
+* PyAutoGUI and pyperclip: control clipboard, mouse and keyboard operations.
+* selenium: control Chrome browser.
+* OpenCV-Python: provide graphic based operation.
+
+## API
+
+### Image related functions
+
+| Function | Returns | Description |
+| -------- | ------- |----------- |
+| init(element_ratio) | None | Initialize image identification base parameters. element_ratio is define the element image resize ratio (width, height) |
+| snap(fname=None) | None or Image object | Create screen snapshot. If fname setted will save screen snapshot to file. |
+| find\_image\_element(element, pmode='center', debug=True, threshold=None) | found: bool, x: int, y: int | Find element image position at screen, return whether founded and position. pmode: position mode, `'center'` means return center position of element image, `'topleft'` means top left position; threshold: confidence threshold for image find, None means use system default (0.8). |
+| find\_image\_element2(location, element, pmode='center', debug=True, threshold=None) | found: bool, x: int, y: int | Find element image position at screen with bigger location image found at screen, return whether founded and position. pmode: position mode; threshold: confidence threshold for image find. |
+| scale\_find\_image(element, ratio\_from=0.2, ratio\_to=4, step=0.1, pmode='center', debug=True, threshold=None) | found: bool, x: int, y: int | Find element image with multi scale mode, return whether founded and position. ratio\_from: start scale ratio; ratio\_to: end scale ratio; step: ratio increase ratio; pmode: position mode; threshold: confidence threshold for image find.|
+| click\_image(element, debug=True, threshold=None) | None | If element image founded in screen click it. Click position see `find_image_element` |
+| click\_image2(location, element, debug=True, threshold=None) | None | If element image founded in screen click it. Click position see `find_image_element2` |
+| exists\_image(element, debug=True, threshold=None) | found: bool | Return element image founded in screen. |
+| exists\_image2(location, element, debug=True, threshold=None) | found: bool | Return element image founded in screen. |
+| wait\_untile\_exists(element, next_op=None, max_wait=20, duration=1, debug=True, threshold=None) | None | Wait the element image exists in screen. next_op: operation that after element image founded, `None`: do nothing, `'click'`: click element, `'hover'`: move mouse over it, `'click_paste'`: click element and paste clipboard content; max\_wait: Check element image exists cycles; duration: if not found how many seconds it will wait; threshold: confidence threshold for image find. |
+| wait\_untile\_exists2(location, element, next_op=None, max_wait=20, duration=1, debug=True, threshold=None) | None |  Wait the element image exists in screen. next_op: operation that after element image founded, `None`: do nothing, `'click'`: click element, `'hover'`: move mouse over it, `'click_paste'`: click element and paste clipboard content; max\_wait: Check element image exists cycles; duration: if not found how many seconds it will wait; threshold: confidence threshold for image find. |
+
+### GUI related functions
+
+| Function | Return | Description |
+| -------- | ------ | ----------- |
+| alert(text, title='Alert') | None | Show dialog with `OK` button and text content |
+| confirm(text, title='Confirm') | bool | Show dialog with `OK` and `Cancel` button and text content, Return `True` if `OK` button clicked |
+| clip(text) | None | Set clipboard content with text |
+| write(text) | None | Type text |
+| hotkey(*args) | None | Send combine key pressed. For example `Ctrl` + `V` is `hotkey('ctrl', 'v')` |
+| paste() | None | Shot cuts with `Ctrl` + `V` |
+| move(x, y) | None | Move mouse to position |
+| click(x=None, y=None, clicks=1) | None | Perform mouse left button click, if `x` and `y` is setted, it will move the mouse to the position and then click; clicks: how many times button clicked, if double click just set it to `2`. |
+| dclick(x=None, y=None) | None | Perform double click, if `x` and `y` is setted, it will move the mouse to the position first |
+| rclick(x=None, y=None, clicks=1) | None | Perform mouse right button click, if `x` and `y` is setted,  it will move the mouse to the position and then click; clicks: how many times button clicked, if double click just set it to `2`. |
+| mdown(x=None, y=None) | None | Press mouse left button, if `x` and `y` is setted it will move the mouse to the position first and then press the left button. |
+| mup(x=None, y=None) | None | Release mouse left button, if `x` and `y` is setted it will move the mouse to the position first and then release the left button. |
+| scroll(steps) | None | Scroll mouse wheel with steps |
+| click\_and\_input(x, y, text) | None | Set the text to clipboard and then click the position and then perform `Ctrl` + `V`. |
+
+### Chrome related functions
+| Function | Return | Description |
+| -------- | ------ | ----------- |
+| chrome(profile\_dir=None, socks5\_proxy=None, size=(1266, 800), position=(0, 0)) | Driver Object | Start Chrome browser and return Selenium driver object. profile\_dir: Chrome user data path; socks5\_proxy: socks5 proxy address; size: window size; position: window position |
+| switch\_tab(driver, idx=None, name='', url='', mode='contains') | None | Switch current tab. driver: Selenium driver object; idx: tab index; name: page title query; url: page url query; mode: query match mode, `contains` means name or url contains query, `equals` means name or url equals query. |
+| new\_tab(driver, url='') | None | Create new tab and switch it to current. url: URL for new tab, empty means new blank tab. |
+
+> You can use `chrome` function returned driver object to perform more operations. For more details please read Selenium documents.
+
+### Misc functions
+| Function | Return | Description |
+| -------- | ------ | ----------- |
+| wait(secs=1) | None | Wait secs seconds |
+| wait\_input(prompt='Input: ') | str | Wait console input |
+| os_name() | str | Return OS name: `Linux`, `Darwin`, `Windows` |
+| is_windows() | bool | Return is Windows |
+| is_linux() | bool | Return is Linux |
+| is_macos() | bool | Return is MacOS |
+
+
+## Special Usages
+
+* Input text: If some character cannot input by just type keyboard, please use clipboard to copy and paste to input box. For example, you can use `click_and_input` function.
+* If button image will present more than one at screen, you can use `find_image_element2` to locate bigger image at screen and then find your element image in location image.

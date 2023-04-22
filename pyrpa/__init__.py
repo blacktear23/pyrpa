@@ -23,6 +23,6 @@ __all__ = [
     'move', 'click', 'dclick', 'rclick', 'mdown', 'mup', 'scroll', 'click_and_input',
     'find_image_element', 'find_image_element2', 'scale_find_image',
     'click_image', 'click_image2', 'exists_image', 'exists_image2',
-    'wait_untile_exists', 'wait_untile_exists2', 'scale_image',
+    'wait_untile_exists', 'wait_untile_exists2',
     'chrome', 'switch_tab', 'new_tab',
 ]

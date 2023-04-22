@@ -6,8 +6,8 @@ def wait(sec=1):
     time.sleep(sec)
 
 
-def wait_input(msg='Input: '):
-    return input(msg)
+def wait_input(prompt='Input: '):
+    return input(prompt)
 
 
 def os_name():

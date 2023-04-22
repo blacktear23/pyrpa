@@ -74,8 +74,8 @@ def mup(x=None, y=None):
     pyautogui.mouseUp()
 
 
-def scroll(step):
-    pyautogui.scroll(step)
+def scroll(steps):
+    pyautogui.scroll(steps)
 
 
 def click_and_input(x, y, text):
