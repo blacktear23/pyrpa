@@ -6,7 +6,7 @@ from .ocr import init_ocr, find_ocr_element
 
 
 # Initialize
-def init(screen_ratio=None, enable_ocr=False, ocr_langs=['en'], enable_gpu=False):
+def init(screen_ratio=(1, 1), enable_ocr=False, ocr_langs=['en'], enable_gpu=False):
     init_img(screen_ratio)
     if enable_ocr:
         init_ocr(ocr_langs, enable_gpu)
