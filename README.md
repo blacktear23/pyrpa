@@ -4,11 +4,17 @@ pyrpa lets Python control the Chrome browser, mouse and keyboard to automatic do
 
 ## Install
 
-Before install package you should make sure OpenCV and python-tk is installed.
+Before install package you should make sure OpenCV and python-tk is installed. Then install package by:
+
+```
+python3 setup.py install
+```
+
 
 ### MacOS
 
-You should install OpenCV and make sure python-tk is installed (for message box support)
+You should install OpenCV and make sure python-tk is installed (for message box support).
+
 
 Install OpenCV
 
@@ -32,7 +38,7 @@ sudo apt-get install -y python3-opencv python3-tk scrot xclip xsel
 
 ## System Design
 
-pyrpa is combine PyAutoGUI, pyperclip, selenium, OpenCV-Python, EasyOCR to do the RPA jobs.
+pyrpa combines PyAutoGUI, pyperclip, selenium, OpenCV-Python, EasyOCR to do the RPA jobs.
 
 * PyAutoGUI and pyperclip: control clipboard, mouse and keyboard operations.
 * selenium: control Chrome browser.
@@ -102,7 +108,7 @@ pyrpa is combine PyAutoGUI, pyperclip, selenium, OpenCV-Python, EasyOCR to do th
 | is_linux() | bool | Return is Linux |
 | is_macos() | bool | Return is MacOS |
 
-## Special Usages
+## Tips
 
 * Input text: If some character cannot input by just type keyboard, please use clipboard to copy and paste to input box. For example, you can use `click_and_input` function.
 * If button image will present more than one at screen, you can use `find_image_element2` to locate bigger image at screen and then find your element image in location image.
