@@ -11,7 +11,7 @@ THRESHOLD = 0.8
 ELEMENT_IMAGE_RATIO = (1, 1)
 
 
-def init(element_ratio=None):
+def init_img(element_ratio=None):
     global SCREEN_HRATIO
     global SCREEN_WRATIO
     global ELEMENT_IMAGE_RATIO

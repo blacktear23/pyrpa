@@ -32,11 +32,12 @@ sudo apt-get install -y python3-opencv python3-tk scrot xclip xsel
 
 ## System Design
 
-pyrpa is combine PyAutoGUI, pyperclip, selenium, OpenCV-Python to do the RPA jobs.
+pyrpa is combine PyAutoGUI, pyperclip, selenium, OpenCV-Python, EasyOCR to do the RPA jobs.
 
 * PyAutoGUI and pyperclip: control clipboard, mouse and keyboard operations.
 * selenium: control Chrome browser.
 * OpenCV-Python: provide graphic based operation.
+* EasyOCR: provide OCR text position find feature.
 
 ## API
 
@@ -44,7 +45,7 @@ pyrpa is combine PyAutoGUI, pyperclip, selenium, OpenCV-Python to do the RPA job
 
 | Function | Returns | Description |
 | -------- | ------- |----------- |
-| init(element_ratio=(1, 1)) | None | Initialize image identification base parameters. element_ratio is define the element image resize ratio (width, height) |
+| init\_img(element\_ratio=(1, 1)) | None | Initialize image identification base parameters. element\_ratio is define the element image resize ratio (width, height) |
 | snap(fname=None) | None or Image object | Create screen snapshot. If fname setted will save screen snapshot to file. |
 | find\_image\_element(element, pmode='center', debug=True, threshold=None) | found: bool, x: int, y: int | Find element image position at screen, return whether founded and position. pmode: position mode, `'center'` means return center position of element image, `'topleft'` means top left position; threshold: confidence threshold for image find, None means use system default (0.8). |
 | find\_image\_element2(location, element, pmode='center', debug=True, threshold=None) | found: bool, x: int, y: int | Find element image position at screen with bigger location image found at screen, return whether founded and position. pmode: position mode; threshold: confidence threshold for image find. |
@@ -84,16 +85,22 @@ pyrpa is combine PyAutoGUI, pyperclip, selenium, OpenCV-Python to do the RPA job
 
 > You can use `chrome` function returned driver object to perform more operations. For more details please read Selenium documents.
 
+### OCR functions
+| Function | Return | Description |
+| -------- | ------ | ----------- |
+| init\_ocr(langs=['en'], enable_gpu=False) | None | Initialize OCR system, setup languages and set whether enable CUDA |
+| find\_ocr\_element(text, pmode='center', debug=True, threshold=None) | found: bool, x: int, y: int | Find `text` position at screen, return whether founded and position. pmode: position mode, `'center'` means return center position of text, `'topleft'` means top left position; threshold: confidence threshold for image find, None means use system default (0.8). |
+
 ### Misc functions
 | Function | Return | Description |
 | -------- | ------ | ----------- |
+| init(screen\_ratio=None, enable\_ocr=False, ocr\_langs=['en'], enable\_gpu=False) | None | Initialize image and OCR system. screen\_ratio: define the element image resize ratio (width, height), see `init_img`; enable\_ocr: enable OCR system; ocr\_langs: OCR language; enable\_gpu: enable GPU for OCR system. |
 | wait(secs=1) | None | Wait secs seconds |
 | wait\_input(prompt='Input: ') | str | Wait console input |
 | os_name() | str | Return OS name: `Linux`, `Darwin`, `Windows` |
 | is_windows() | bool | Return is Windows |
 | is_linux() | bool | Return is Linux |
 | is_macos() | bool | Return is MacOS |
-
 
 ## Special Usages
 
