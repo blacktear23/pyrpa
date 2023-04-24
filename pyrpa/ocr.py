@@ -14,7 +14,10 @@ def init_ocr(langs=['en'], enable_gpu=False):
 
 
 def find_ocr_element(text, pmode='center', debug=True, threshold=None):
-    import easyocr
+    if EASYOCR_READER is None:
+        print('Alert: OCR system not initialized')
+        return False, 0, 0
+
     if threshold is None:
         threshold = THRESHOLD
 
