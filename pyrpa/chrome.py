@@ -5,23 +5,29 @@ from selenium import webdriver
 
 def start_chrome(profile_dir=None, socks5_proxy=None, size=(1366, 768), position=(0, 0), user_agent=None):
     opt = webdriver.ChromeOptions()
-    opt.add_experimental_option("excludeSwitches", [
-        "enable-automation",
-        "disable-background-networking",
-        "disable-default-apps",
-        "disable-hang-monitor",
-        "enable-blink-features",
-        "no-service-autorun",
-        "test-type",
-        "use-mock-keychain",
+    opt.add_experimental_option('excludeSwitches', [
+        'enable-automation',
+        'disable-background-networking',
+        'disable-default-apps',
+        'disable-hang-monitor',
+        'enable-blink-features',
+        'no-service-autorun',
+        'test-type',
+        'use-mock-keychain',
     ])
+    # Disable remember password feature
     opt.add_experimental_option('prefs', {
-        "credentials_enable_service": False,
-        "profile.password_manager_enabled": False,
+        'credentials_enable_service': False,
+        'profile.password_manager_enabled': False,
     })
+    # Disable browser notification
     opt.add_argument('--disable-notifications')
+    # Disable default browser check and confirm
     opt.add_argument('--no-default-browser-check')
+    # Disable auto update check
     opt.add_argument("--simulate-outdated-no-au='Tue, 31 Dec 2099 23:59:59 GMT'")
+    # Disable sec-ch-ua* headers for HTTP/2
+    opt.add_argument('--disable-features=UserAgentClientHint')
     # If in linux and user is root just add --no-sandbox
     if platform.system() == 'Linux' and os.getlogin() == 'root':
         opt.add_argument('--no-sandbox')
