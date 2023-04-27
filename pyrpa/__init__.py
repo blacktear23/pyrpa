@@ -13,8 +13,8 @@ def init(screen_ratio=(1, 1), enable_ocr=False, ocr_langs=['en'], enable_gpu=Fal
 
 
 # Browser
-def chrome(profile_dir=None, socks5_proxy=None, size=(1266, 800), position=(0, 0)):
-    return start_chrome(profile_dir, socks5_proxy, size, position)
+def chrome(profile_dir=None, socks5_proxy=None, size=(1266, 800), position=(0, 0), user_agent=None):
+    return start_chrome(profile_dir, socks5_proxy, size, position, user_agent)
 
 
 def switch_tab(driver, idx=None, name='', url='', mode='contains'):

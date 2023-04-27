@@ -3,7 +3,7 @@ import platform
 from selenium import webdriver
 
 
-def start_chrome(profile_dir=None, socks5_proxy=None, size=(1366, 768), position=(0, 0)):
+def start_chrome(profile_dir=None, socks5_proxy=None, size=(1366, 768), position=(0, 0), user_agent=None):
     opt = webdriver.ChromeOptions()
     opt.add_experimental_option("excludeSwitches", [
         "enable-automation",
@@ -26,6 +26,8 @@ def start_chrome(profile_dir=None, socks5_proxy=None, size=(1366, 768), position
     if platform.system() == 'Linux' and os.getlogin() == 'root':
         opt.add_argument('--no-sandbox')
 
+    if user_agent is not None:
+        opt.add_argument('--user-agent=%s' % user_agent)
     if position is not None:
         opt.add_argument('--window-position=%s,%s' % (position[0], position[1]))
     if size is not None:
