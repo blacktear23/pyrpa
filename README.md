@@ -88,8 +88,20 @@ pyrpa combines PyAutoGUI, pyperclip, selenium, OpenCV-Python, EasyOCR to do the 
 | chrome(profile\_dir=None, socks5\_proxy=None, size=(1266, 800), position=(0, 0), user\_agent=None) | Driver Object | Start Chrome browser and return Selenium driver object. profile\_dir: Chrome user data path; socks5\_proxy: socks5 proxy address; size: window size; position: window position; user\_agent: set User-Agent header. |
 | switch\_tab(driver, idx=None, name='', url='', mode='contains') | None | Switch current tab. driver: Selenium driver object; idx: tab index; name: page title query; url: page url query; mode: query match mode, `contains` means name or url contains query, `equals` means name or url equals query. |
 | new\_tab(driver, url='') | None | Create new tab and switch it to current. url: URL for new tab, empty means new blank tab. |
+| tabs(driver) | List | List Chrome tabs info list |
+| get\_new\_tabs(driver, origin\_tabs\_info) | List | Calculate new opened tabs different from `origin_tabs_info` |
 
 > You can use `chrome` function returned driver object to perform more operations. For more details please read Selenium documents.
+>
+> `user_agent` can accept string or dict. There has 3 pre-defined User-Agent configuration `WINDOWS_UA`, `LINUX_UA`, `MACOS_UA`.
+>
+> The `user_agent` parameter dict fields:
+>
+> * user\_agent: string, required, user agent string
+> * platform: string, required, `sec-ch-ua-platform` os name
+> * version: string, optional, `sec-ch-ua-platform-version` os version
+> * model: string, optional, `sec-ch-ua-model` information about device
+> * mobile: boolean, optional, `sec-ch-ua-mobile` is mobile device
 
 ### OCR functions
 | Function | Return | Description |

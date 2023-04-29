@@ -3,6 +3,25 @@ import platform
 from selenium import webdriver
 
 
+WINDOWS_UA = {
+    'user_agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36',
+    'platform': 'Windows',
+    'mobile': False,
+}
+
+LINUX_UA = {
+    'user_agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36',
+    'platform': 'Linux',
+    'mobile': False,
+}
+
+MACOS_UA = {
+    'user_agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 13_3_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36',
+    'platform': 'macOS',
+    'mobile': False,
+}
+
+
 def start_chrome(profile_dir=None, socks5_proxy=None, size=(1366, 768), position=(0, 0), user_agent=None):
     opt = webdriver.ChromeOptions()
     opt.add_experimental_option('excludeSwitches', [
@@ -26,14 +45,13 @@ def start_chrome(profile_dir=None, socks5_proxy=None, size=(1366, 768), position
     opt.add_argument('--no-default-browser-check')
     # Disable auto update check
     opt.add_argument("--simulate-outdated-no-au='Tue, 31 Dec 2099 23:59:59 GMT'")
-    # Disable sec-ch-ua* headers for HTTP/2
-    opt.add_argument('--disable-features=UserAgentClientHint')
     # If in linux and user is root just add --no-sandbox
     if platform.system() == 'Linux' and os.getlogin() == 'root':
         opt.add_argument('--no-sandbox')
-
-    if user_agent is not None:
+    # user_agent is string, set user agent as chrome parameter and disable SEC-CH-UA
+    if user_agent is not None and isinstance(user_agent, str):
         opt.add_argument('--user-agent=%s' % user_agent)
+        opt.add_argument('--disable-features=UserAgentClientHint')
     if position is not None:
         opt.add_argument('--window-position=%s,%s' % (position[0], position[1]))
     if size is not None:
@@ -43,6 +61,19 @@ def start_chrome(profile_dir=None, socks5_proxy=None, size=(1366, 768), position
     if socks5_proxy is not None:
         opt.add_argument('--proxy-server=socks5://%s' % socks5_proxy)
     c = webdriver.Chrome(options=opt)
+    # user_agent is dict, set user agent and SEC-CH-UA via CDP request
+    if user_agent is not None and isinstance(user_agent, dict):
+        c.execute_cdp_cmd("Emulation.setUserAgentOverride", {
+            'userAgent': user_agent['user_agent'],
+            'platform': user_agent.get('platform', 'Windows'),
+            'userAgentMetadata': {
+                'platform': user_agent.get('platform', 'Windows'),
+                'platformVersion': user_agent.get('version', ''),
+                'architecture': user_agent.get('architecture', ''),
+                'model': user_agent.get('model', ''),
+                'mobile': user_agent.get('mobile', False),
+            },
+        })
     return c
 
 
@@ -103,8 +134,12 @@ def create_new_tab(driver, url=''):
         driver.get(url)
 
 
-if __name__ == '__main__':
-    c = start_chrome(profile_dir='./profile-test')
-    c.get('https://github.com')
-    input('Continue?')
-    c.close()
+def list_tabs(driver):
+    ret = []
+    data = driver.execute_cdp_cmd('Target.getTargets', {})
+    targets = data.get('targetInfos', [])
+    for handle in driver.window_handles:
+        for tgt in targets:
+            if tgt.get('targetId', '') == handle:
+                ret.append(tgt)
+    return ret
