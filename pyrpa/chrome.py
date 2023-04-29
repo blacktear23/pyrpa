@@ -5,18 +5,21 @@ from selenium import webdriver
 
 WINDOWS_UA = {
     'user_agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36',
+    'disable_ch': True,
     'platform': 'Windows',
     'mobile': False,
 }
 
 LINUX_UA = {
     'user_agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36',
+    'disable_ch': True,
     'platform': 'Linux',
     'mobile': False,
 }
 
 MACOS_UA = {
     'user_agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 13_3_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36',
+    'disable_ch': True,
     'platform': 'macOS',
     'mobile': False,
 }
@@ -49,9 +52,14 @@ def start_chrome(profile_dir=None, socks5_proxy=None, size=(1366, 768), position
     if platform.system() == 'Linux' and os.getlogin() == 'root':
         opt.add_argument('--no-sandbox')
     # user_agent is string, set user agent as chrome parameter and disable SEC-CH-UA
-    if user_agent is not None and isinstance(user_agent, str):
-        opt.add_argument('--user-agent=%s' % user_agent)
-        opt.add_argument('--disable-features=UserAgentClientHint')
+    if user_agent is not None:
+        if isinstance(user_agent, str):
+            opt.add_argument('--user-agent=%s' % user_agent)
+            opt.add_argument('--disable-features=UserAgentClientHint')
+        elif isinstance(user_agent, dict):
+            opt.add_argument('--user-agent=%s' % user_agent['user_agent'])
+            if user_agent.get('disable_ch', False):
+                opt.add_argument('--disable-features=UserAgentClientHint')
     if position is not None:
         opt.add_argument('--window-position=%s,%s' % (position[0], position[1]))
     if size is not None:
@@ -63,17 +71,18 @@ def start_chrome(profile_dir=None, socks5_proxy=None, size=(1366, 768), position
     c = webdriver.Chrome(options=opt)
     # user_agent is dict, set user agent and SEC-CH-UA via CDP request
     if user_agent is not None and isinstance(user_agent, dict):
-        c.execute_cdp_cmd("Emulation.setUserAgentOverride", {
-            'userAgent': user_agent['user_agent'],
-            'platform': user_agent.get('platform', 'Windows'),
-            'userAgentMetadata': {
+        if not user_agent.get('disable_ch', False):
+            c.execute_cdp_cmd("Emulation.setUserAgentOverride", {
+                'userAgent': user_agent['user_agent'],
                 'platform': user_agent.get('platform', 'Windows'),
-                'platformVersion': user_agent.get('version', ''),
-                'architecture': user_agent.get('architecture', ''),
-                'model': user_agent.get('model', ''),
-                'mobile': user_agent.get('mobile', False),
-            },
-        })
+                'userAgentMetadata': {
+                    'platform': user_agent.get('platform', 'Windows'),
+                    'platformVersion': user_agent.get('version', ''),
+                    'architecture': user_agent.get('architecture', ''),
+                    'model': user_agent.get('model', ''),
+                    'mobile': user_agent.get('mobile', False),
+                },
+            })
     return c
 
 
