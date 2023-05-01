@@ -3,6 +3,9 @@ import platform
 from selenium import webdriver
 
 
+BROWSER_OPERATION_TIMEOUT = 10
+
+
 WINDOWS_UA = {
     'user_agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36',
     'disable_ch': True,
@@ -26,6 +29,7 @@ MACOS_UA = {
 
 
 def start_chrome(profile_dir=None, socks5_proxy=None, size=(1366, 768), position=(0, 0), user_agent=None):
+    webdriver.remote.remote_connection.RemoteConnection.set_timeout(BROWSER_OPERATION_TIMEOUT)
     opt = webdriver.ChromeOptions()
     opt.add_experimental_option('excludeSwitches', [
         'enable-automation',
