@@ -95,6 +95,9 @@ def find_image_element2(location, element, pmode='center', debug=True, threshold
     result = cv2.matchTemplate(src_img_g, loc_img_g, cv2.TM_CCOEFF_NORMED)
     (min_val, max_val, min_loc, max_loc) = cv2.minMaxLoc(result)
 
+    if debug:
+        print('DEBUG: x = %s, y = %s, max_val = %s' % (max_loc[0], max_loc[1], max_val))
+
     if threshold is None:
         threshold = THRESHOLD
 
@@ -108,18 +111,19 @@ def find_image_element2(location, element, pmode='center', debug=True, threshold
     result = cv2.matchTemplate(loc_img_g, elem_img_g, cv2.TM_CCOEFF_NORMED)
     (min_val, max_val, min_loc, max_loc) = cv2.minMaxLoc(result)
 
-    if max_val <= threshold:
-        return False, 0, 0
-
     x, y = max_loc[0], max_loc[1]
     x += loc_x
     y += loc_y
     if debug:
+        print('DEBUG: x = %s, y = %s, max_val = %s' % (x, y, max_val))
         # Draw location rectangle
         cv2.rectangle(screen_img, (loc_x, loc_y), (loc_x + lw, loc_y + lh), (0, 0, 255), 2)
         # Draw element rectangle
         cv2.rectangle(screen_img, (x, y), (x + w, y + h), (0, 0, 255), 2)
         cv2.imwrite('debug.png', screen_img)
+
+    if max_val <= threshold:
+        return False, 0, 0
 
     if pmode == 'center':
         x = x / SCREEN_WRATIO + w / 2 / SCREEN_WRATIO

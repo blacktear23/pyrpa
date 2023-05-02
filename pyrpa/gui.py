@@ -14,6 +14,11 @@ def confirm(text, title='Confirm'):
     return ret == 'OK'
 
 
+def prompt(text, title='Please Input', default=''):
+    ret = pyautogui.prompt(text, title, default)
+    return ret
+
+
 # clipboard and keyboard control
 def clip(text):
     pyperclip.copy(text)
