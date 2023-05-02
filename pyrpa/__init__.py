@@ -1,4 +1,4 @@
-from .gui import alert, confirm, clip, snap, write, hotkey, paste, move, click, dclick, rclick, mdown, mup, scroll, click_and_input
+from .gui import alert, confirm, prompt, clip, snap, write, hotkey, paste, move, click, dclick, rclick, mdown, mup, scroll, click_and_input
 from .images import init_img, find_image_element, find_image_element2, scale_find_image, click_image, click_image2, exists_image, exists_image2, wait_untile_exists, wait_untile_exists2
 from .utils import wait, wait_input, os_name, is_windows, is_linux, is_macos
 from .chrome import start_chrome, switch_to_tab, create_new_tab, list_tabs, WINDOWS_UA, LINUX_UA, MACOS_UA
@@ -46,7 +46,7 @@ def get_new_tabs(driver, origin_tabs):
 __all__ = [
     'init', 'init_img', 'init_ocr',
     'wait', 'wait_input', 'os_name', 'is_windows', 'is_linux', 'is_macos',
-    'alert', 'confirm', 'clip', 'snap', 'write', 'hotkey', 'paste',
+    'alert', 'confirm', 'prompt', 'clip', 'snap', 'write', 'hotkey', 'paste',
     'move', 'click', 'dclick', 'rclick', 'mdown', 'mup', 'scroll', 'click_and_input',
     'find_image_element', 'find_image_element2', 'scale_find_image',
     'click_image', 'click_image2', 'exists_image', 'exists_image2',
