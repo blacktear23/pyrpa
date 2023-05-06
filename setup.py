@@ -7,6 +7,8 @@ dependence = [
     'pyperclip',
     'selenium',
     'easyocr',
+    'sympy',
+    'lazy_loader',
 ]
 
 desc = 'pyrpa lets Python control the Chrome browser, mouse and keyboard to automatic do jobs.'

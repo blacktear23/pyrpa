@@ -28,7 +28,7 @@ MACOS_UA = {
 }
 
 
-def start_chrome(profile_dir=None, socks5_proxy=None, size=(1366, 768), position=(0, 0), user_agent=None):
+def start_chrome(profile_dir=None, socks5_proxy=None, proxy=None, size=(1366, 768), position=(0, 0), user_agent=None):
     webdriver.remote.remote_connection.RemoteConnection.set_timeout(BROWSER_OPERATION_TIMEOUT)
     opt = webdriver.ChromeOptions()
     opt.add_experimental_option('excludeSwitches', [
@@ -72,6 +72,8 @@ def start_chrome(profile_dir=None, socks5_proxy=None, size=(1366, 768), position
         opt.add_argument('--user-data-dir=%s' % profile_dir)
     if socks5_proxy is not None:
         opt.add_argument('--proxy-server=socks5://%s' % socks5_proxy)
+    if proxy is not None:
+        opt.add_argument('--proxy-server=%s' % proxy)
     c = webdriver.Chrome(options=opt)
     # user_agent is dict, set user agent and SEC-CH-UA via CDP request
     if user_agent is not None and isinstance(user_agent, dict):
@@ -139,6 +141,10 @@ def switch_to_tab(driver, idx=None, name='', url='', mode='contains'):
         if not found:
             driver.switch_to.window(current_hdl)
         return
+
+
+def scroll_page(driver, steps):
+    driver.execute_script("window.scrollTo(0, window.scrollY + %d)" % int(steps))
 
 
 def create_new_tab(driver, url=''):

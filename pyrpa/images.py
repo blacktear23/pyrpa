@@ -81,6 +81,16 @@ def find_image_element(element, pmode='center', debug=True, threshold=None):
     elif pmode == 'topleft':
         x = x / SCREEN_WRATIO
         y = y / SCREEN_HRATIO
+    elif pmode == 'topright':
+        x = x / SCREEN_WRATIO + w / SCREEN_WRATIO
+        y = y / SCREEN_HRATIO
+    elif pmode == 'centerleft':
+        x = x / SCREEN_WRATIO
+        y = y / SCREEN_HRATIO + h / 2 / SCREEN_HRATIO
+    elif pmode == 'centerright':
+        x = x / SCREEN_WRATIO + w / SCREEN_WRATIO
+        y = y / SCREEN_HRATIO + h / 2 / SCREEN_HRATIO
+
     return True, int(x), int(y)
 
 
@@ -131,6 +141,16 @@ def find_image_element2(location, element, pmode='center', debug=True, threshold
     elif pmode == 'topleft':
         x = x / SCREEN_WRATIO
         y = y / SCREEN_HRATIO
+    elif pmode == 'topright':
+        x = x / SCREEN_WRATIO + w / SCREEN_WRATIO
+        y = y / SCREEN_HRATIO
+    elif pmode == 'centerleft':
+        x = x / SCREEN_WRATIO
+        y = y / SCREEN_HRATIO + h / 2 / SCREEN_HRATIO
+    elif pmode == 'centerright':
+        x = x / SCREEN_WRATIO + w / SCREEN_WRATIO
+        y = y / SCREEN_HRATIO + h / 2 / SCREEN_HRATIO
+
     return True, int(x), int(y)
 
 
@@ -175,6 +195,16 @@ def scale_find_image(element, ratio_from=0.2, ratio_to=4, step=0.1, pmode='cente
     elif pmode == 'topleft':
         x = x / SCREEN_WRATIO
         y = y / SCREEN_HRATIO
+    elif pmode == 'topright':
+        x = x / SCREEN_WRATIO + w / SCREEN_WRATIO
+        y = y / SCREEN_HRATIO
+    elif pmode == 'centerleft':
+        x = x / SCREEN_WRATIO
+        y = y / SCREEN_HRATIO + h / 2 / SCREEN_HRATIO
+    elif pmode == 'centerright':
+        x = x / SCREEN_WRATIO + w / SCREEN_WRATIO
+        y = y / SCREEN_HRATIO + h / 2 / SCREEN_HRATIO
+
     return True, int(x), int(y)
 
 

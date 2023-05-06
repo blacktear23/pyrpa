@@ -39,7 +39,9 @@ def hotkey(*args):
     time.sleep(0.4)
 
 
-def paste():
+def paste(text=None):
+    if text is not None:
+        pyperclip.copy(text)
     if platform.system() == 'Darwin':
         hotkey('command', 'v')
     else:
@@ -88,3 +90,9 @@ def click_and_input(x, y, text):
     move(x, y)
     click()
     paste()
+
+
+def click_and_type(x, y, text):
+    move(x, y)
+    click()
+    write(text)
