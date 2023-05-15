@@ -3,7 +3,7 @@ import platform
 from selenium import webdriver
 
 
-BROWSER_OPERATION_TIMEOUT = 10
+BROWSER_OPERATION_TIMEOUT = 30
 
 
 WINDOWS_UA = {
