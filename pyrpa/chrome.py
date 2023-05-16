@@ -162,3 +162,9 @@ def list_tabs(driver):
             if tgt.get('targetId', '') == handle:
                 ret.append(tgt)
     return ret
+
+
+def snap_page(driver, fname=None):
+    if fname is None:
+        driver.get_screenshot_as_png()
+    return driver.get_screenshot_as_file(fname)
