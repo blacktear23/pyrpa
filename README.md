@@ -82,6 +82,7 @@ pyrpa combines PyAutoGUI, pyperclip, selenium, OpenCV-Python, EasyOCR to do the 
 | mup(x=None, y=None) | None | Release mouse left button, if `x` and `y` is setted it will move the mouse to the position first and then release the left button. |
 | scroll(steps) | None | Scroll mouse wheel with steps |
 | click\_and\_input(x, y, text) | None | Set the text to clipboard and then click the position and then perform `Ctrl` + `V`. |
+| click\_and\_type(x, y, text) | None | Click the position and then type privided `text` parameter. The `text` parameter should be a string that all character can be typed by keyboard. |
 
 ### Chrome related functions
 | Function | Return | Description |
@@ -91,6 +92,7 @@ pyrpa combines PyAutoGUI, pyperclip, selenium, OpenCV-Python, EasyOCR to do the 
 | new\_tab(driver, url='') | None | Create new tab and switch it to current. url: URL for new tab, empty means new blank tab. |
 | tabs(driver) | List | List Chrome tabs info list |
 | get\_new\_tabs(driver, origin\_tabs\_info) | List | Calculate new opened tabs different from `origin_tabs_info` |
+| snap\_page(driver, fname=None) | bool / bytes | Take screen shot from browser page and save to a file when `fname` provided. |
 
 > You can use `chrome` function returned driver object to perform more operations. For more details please read Selenium documents.
 >
