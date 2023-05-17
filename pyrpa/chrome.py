@@ -1,5 +1,6 @@
 import os
 import platform
+import getpass
 from selenium import webdriver
 
 
@@ -53,7 +54,7 @@ def start_chrome(profile_dir=None, socks5_proxy=None, proxy=None, size=(1366, 76
     # Disable auto update check
     opt.add_argument("--simulate-outdated-no-au='Tue, 31 Dec 2099 23:59:59 GMT'")
     # If in linux and user is root just add --no-sandbox
-    if platform.system() == 'Linux' and os.getlogin() == 'root':
+    if platform.system() == 'Linux' and getpass.getuser() == 'root':
         opt.add_argument('--no-sandbox')
     # user_agent is string, set user agent as chrome parameter and disable SEC-CH-UA
     if user_agent is not None:
