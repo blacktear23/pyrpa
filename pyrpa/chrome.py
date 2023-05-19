@@ -29,7 +29,7 @@ MACOS_UA = {
 }
 
 
-def start_chrome(profile_dir=None, socks5_proxy=None, proxy=None, size=(1366, 768), position=(0, 0), user_agent=None):
+def start_chrome(profile_dir=None, socks5_proxy=None, proxy=None, size=(1366, 768), position=(0, 0), user_agent=None, mobile_emulation=None):
     webdriver.remote.remote_connection.RemoteConnection.set_timeout(BROWSER_OPERATION_TIMEOUT)
     opt = webdriver.ChromeOptions()
     opt.add_experimental_option('excludeSwitches', [
@@ -56,6 +56,11 @@ def start_chrome(profile_dir=None, socks5_proxy=None, proxy=None, size=(1366, 76
     # If in linux and user is root just add --no-sandbox
     if platform.system() == 'Linux' and getpass.getuser() == 'root':
         opt.add_argument('--no-sandbox')
+
+    if mobile_emulation is not None:
+        user_agent = None
+        opt.add_experimental_option("mobileEmulation", mobile_emulation)
+
     # user_agent is string, set user agent as chrome parameter and disable SEC-CH-UA
     if user_agent is not None:
         if isinstance(user_agent, str):
