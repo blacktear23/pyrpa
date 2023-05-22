@@ -4,7 +4,7 @@ import getpass
 from selenium import webdriver
 
 
-BROWSER_OPERATION_TIMEOUT = 30
+BROWSER_OPERATION_TIMEOUT = 60
 
 
 WINDOWS_UA = {
@@ -29,8 +29,12 @@ MACOS_UA = {
 }
 
 
-def start_chrome(profile_dir=None, socks5_proxy=None, proxy=None, size=(1366, 768), position=(0, 0), user_agent=None, mobile_emulation=None):
-    webdriver.remote.remote_connection.RemoteConnection.set_timeout(BROWSER_OPERATION_TIMEOUT)
+def start_chrome(profile_dir=None, socks5_proxy=None, proxy=None, size=(1366, 768), position=(0, 0), user_agent=None, mobile_emulation=None, timeout=None):
+    if timeout is None:
+        webdriver.remote.remote_connection.RemoteConnection.set_timeout(BROWSER_OPERATION_TIMEOUT)
+    else:
+        webdriver.remote.remote_connection.RemoteConnection.set_timeout(timeout)
+
     opt = webdriver.ChromeOptions()
     opt.add_experimental_option('excludeSwitches', [
         'enable-automation',
