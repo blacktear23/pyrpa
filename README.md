@@ -87,7 +87,7 @@ pyrpa combines PyAutoGUI, pyperclip, selenium, OpenCV-Python, EasyOCR to do the 
 ### Chrome related functions
 | Function | Return | Description |
 | -------- | ------ | ----------- |
-| chrome(profile\_dir=None, socks5\_proxy=None, size=(1266, 800), position=(0, 0), user\_agent=None) | Driver Object | Start Chrome browser and return Selenium driver object. profile\_dir: Chrome user data path; socks5\_proxy: socks5 proxy address; size: window size; position: window position; user\_agent: set User-Agent header. |
+| chrome(profile\_dir=None, socks5\_proxy=None, size=(1266, 800), position=(0, 0), user\_agent=None, mobile\_emulation=None, timeout=None) | Driver Object | Start Chrome browser and return Selenium driver object. profile\_dir: Chrome user data path; socks5\_proxy: socks5 proxy address; size: window size; position: window position; user\_agent: set User-Agent header; mobile\_emulation: set mobile browser emulation, require a dict; timeout: Selenium Chrome driver timeout, None will use default 60 seconds. |
 | switch\_tab(driver, idx=None, name='', url='', mode='contains') | None | Switch current tab. driver: Selenium driver object; idx: tab index; name: page title query; url: page url query; mode: query match mode, `contains` means name or url contains query, `equals` means name or url equals query. |
 | new\_tab(driver, url='') | None | Create new tab and switch it to current. url: URL for new tab, empty means new blank tab. |
 | tabs(driver) | List | List Chrome tabs info list |
@@ -105,6 +105,17 @@ pyrpa combines PyAutoGUI, pyperclip, selenium, OpenCV-Python, EasyOCR to do the 
 > * version: string, optional, `sec-ch-ua-platform-version` os version
 > * model: string, optional, `sec-ch-ua-model` information about device
 > * mobile: boolean, optional, `sec-ch-ua-mobile` is mobile device
+> 
+> The `mobile_emulation` parameter dict fields:
+> 
+> * deviceName: Device name
+> * deviceMetrics:
+> 		* width: Screen width
+> 		* height: Screen height
+> 		* pixelRatio: Pixel ratio e.g.: 3.0
+> * userAgent: User-Agent header
+> 
+> You can use only `deviceName` to tell browser which phone that used, or use rest parameters to define your device settings.
 
 ### OCR functions
 | Function | Return | Description |
