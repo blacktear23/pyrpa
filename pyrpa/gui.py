@@ -30,8 +30,8 @@ def snap(fname=None):
     return pyautogui.screenshot(fname)
 
 
-def write(text):
-    pyautogui.write(text, interval=0.4)
+def write(text, interval=0.4):
+    pyautogui.write(text, interval=interval)
 
 
 def hotkey(*args):
@@ -92,7 +92,7 @@ def click_and_input(x, y, text):
     paste()
 
 
-def click_and_type(x, y, text):
+def click_and_type(x, y, text, interval=0.4):
     move(x, y)
     click()
-    write(text)
+    write(text, interval)
