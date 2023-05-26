@@ -50,7 +50,7 @@ def __global_scale_image(img):
     return scale_image(img, ELEMENT_IMAGE_RATIO)
 
 
-def find_image_element(element, pmode='center', debug=True, threshold=None):
+def find_image_element(element, pmode='center', debug=False, threshold=None):
     elem_img = __global_scale_image(cv2.imread(element))
     h, w, _ = elem_img.shape
     pil_screen_img = pyautogui.screenshot()
@@ -63,9 +63,9 @@ def find_image_element(element, pmode='center', debug=True, threshold=None):
     (min_val, max_val, min_loc, max_loc) = cv2.minMaxLoc(result)
     x, y = max_loc[0], max_loc[1]
 
+    print('DEBUG: x = %s, y = %s, max_val = %s' % (x, y, max_val))
     if debug:
         # Draw element rectangle
-        print('DEBUG: x = %s, y = %s, max_val = %s' % (x, y, max_val))
         cv2.rectangle(screen_img, (x, y), (x + w, y + h), (0, 0, 255), 2)
         cv2.imwrite('debug.png', screen_img)
 
@@ -94,7 +94,7 @@ def find_image_element(element, pmode='center', debug=True, threshold=None):
     return True, int(x), int(y)
 
 
-def find_image_element2(location, element, pmode='center', debug=True, threshold=None):
+def find_image_element2(location, element, pmode='center', debug=False, threshold=None):
     location_img = __global_scale_image(cv2.imread(location))
     lh, lw, _ = location_img.shape
     pil_screen_img = pyautogui.screenshot()
@@ -105,8 +105,7 @@ def find_image_element2(location, element, pmode='center', debug=True, threshold
     result = cv2.matchTemplate(src_img_g, loc_img_g, cv2.TM_CCOEFF_NORMED)
     (min_val, max_val, min_loc, max_loc) = cv2.minMaxLoc(result)
 
-    if debug:
-        print('DEBUG: x = %s, y = %s, max_val = %s' % (max_loc[0], max_loc[1], max_val))
+    print('DEBUG: x = %s, y = %s, max_val = %s' % (max_loc[0], max_loc[1], max_val))
 
     if threshold is None:
         threshold = THRESHOLD
@@ -124,8 +123,8 @@ def find_image_element2(location, element, pmode='center', debug=True, threshold
     x, y = max_loc[0], max_loc[1]
     x += loc_x
     y += loc_y
+    print('DEBUG: x = %s, y = %s, max_val = %s' % (x, y, max_val))
     if debug:
-        print('DEBUG: x = %s, y = %s, max_val = %s' % (x, y, max_val))
         # Draw location rectangle
         cv2.rectangle(screen_img, (loc_x, loc_y), (loc_x + lw, loc_y + lh), (0, 0, 255), 2)
         # Draw element rectangle
@@ -155,7 +154,7 @@ def find_image_element2(location, element, pmode='center', debug=True, threshold
 
 
 # Find image from big scale to small scale
-def scale_find_image(element, ratio_from=0.2, ratio_to=4, step=0.1, pmode='center', debug=True, threshold=None):
+def scale_find_image(element, ratio_from=0.2, ratio_to=4, step=0.1, pmode='center', debug=False, threshold=None):
     pil_screen_img = pyautogui.screenshot()
     screen_img = cv2.cvtColor(np.array(pil_screen_img), cv2.COLOR_RGB2BGR)
     src_img_g = cv2.cvtColor(screen_img, cv2.COLOR_BGR2GRAY)
@@ -208,7 +207,7 @@ def scale_find_image(element, ratio_from=0.2, ratio_to=4, step=0.1, pmode='cente
     return True, int(x), int(y)
 
 
-def click_image(elem, debug=True, threshold=None):
+def click_image(elem, debug=False, threshold=None):
     found, x, y = find_image_element(elem, debug=debug, threshold=threshold)
     if not found:
         return
@@ -217,7 +216,7 @@ def click_image(elem, debug=True, threshold=None):
     click()
 
 
-def click_image2(location, elem, debug=True, threshold=None):
+def click_image2(location, elem, debug=False, threshold=None):
     found, x, y = find_image_element2(location, elem, debug=debug, threshold=threshold)
     if not found:
         return
@@ -225,17 +224,17 @@ def click_image2(location, elem, debug=True, threshold=None):
     click()
 
 
-def exists_image(elem, debug=True, threshold=None):
+def exists_image(elem, debug=False, threshold=None):
     found, _, _ = find_image_element(elem, debug=debug, threshold=threshold)
     return found
 
 
-def exists_image2(location, elem, debug=True, threshold=None):
+def exists_image2(location, elem, debug=False, threshold=None):
     found, _, _ = find_image_element2(location, elem, debug=debug, threshold=threshold)
     return found
 
 
-def wait_untile_exists(elem, next_op=None, max_wait=20, duration=1, debug=True, threshold=None):
+def wait_untile_exists(elem, next_op=None, max_wait=20, duration=1, debug=False, threshold=None):
     found = False
     for i in range(max_wait):
         found, x, y = find_image_element(elem, debug=debug, threshold=threshold)
@@ -257,7 +256,7 @@ def wait_untile_exists(elem, next_op=None, max_wait=20, duration=1, debug=True, 
     return None, None
 
 
-def wait_untile_exists2(location, elem, next_op=None, max_wait=20, duration=1, debug=True, threshold=None):
+def wait_untile_exists2(location, elem, next_op=None, max_wait=20, duration=1, debug=False, threshold=None):
     found = False
     for i in range(max_wait):
         found, x, y = find_image_element2(location, elem, debug=debug, threshold=threshold)
