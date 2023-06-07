@@ -43,14 +43,43 @@ def get_new_tabs(driver, origin_tabs):
     return ret
 
 
+def shell(local=None, banner='PyRPA Shell'):
+    import code
+    import importlib
+    from selenium.webdriver.common.by import By
+    # Setup rpa module
+    spec = importlib.machinery.ModuleSpec('rpa', None)
+    mrpa = importlib.util.module_from_spec(spec)
+    for fn in __all__:
+        setattr(mrpa, fn, globals()[fn])
+
+    # Default local should have rpa and By module
+    local_obj = {'rpa': mrpa, 'By': By}
+    if isinstance(local, dict):
+        local_obj.update(local)
+    code.interact(banner=banner, local=local_obj)
+
+
 __all__ = [
+    # Initialize functions
     'init', 'init_img', 'init_ocr',
-    'wait', 'wait_input', 'os_name', 'is_windows', 'is_linux', 'is_macos',
-    'alert', 'confirm', 'prompt', 'clip', 'snap', 'write', 'hotkey', 'paste',
-    'move', 'click', 'dclick', 'rclick', 'mdown', 'mup', 'scroll', 'click_and_input', 'click_and_type',
-    'find_image_element', 'find_image_element2', 'scale_find_image',
-    'click_image', 'click_image2', 'exists_image', 'exists_image2',
-    'wait_untile_exists', 'wait_untile_exists2',
-    'chrome', 'switch_tab', 'new_tab', 'tabs', 'get_new_tabs', 'scroll_page', 'snap_page', 'WINDOWS_UA', 'LINUX_UA', 'MACOS_UA',
+    # OS Related functions
+    'os_name', 'is_windows', 'is_linux', 'is_macos',
+    # Wait and sleep functions
+    'wait', 'wait_input', 'shell',
+    # Prompt and dialog functions
+    'alert', 'confirm', 'prompt',
+    # Copy/paste and keyboard input
+    'clip', 'write', 'hotkey', 'paste', 'click_and_input', 'click_and_type',
+    # Mouse control functions
+    'move', 'click', 'dclick', 'rclick', 'mdown', 'mup', 'scroll',
+    # Image find functions
+    'find_image_element', 'find_image_element2', 'click_image', 'click_image2', 'exists_image', 'exists_image2',
+    'wait_untile_exists', 'wait_untile_exists2', 'scale_find_image',
+    # Chrome related functions
+    'chrome', 'switch_tab', 'new_tab', 'tabs', 'get_new_tabs', 'scroll_page', 'WINDOWS_UA', 'LINUX_UA', 'MACOS_UA',
+    # Screen shot or browser screen shot
+    'snap', 'snap_page',
+    # OCR functions
     'find_ocr_element',
 ]

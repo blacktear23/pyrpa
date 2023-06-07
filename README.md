@@ -129,6 +129,7 @@ pyrpa combines PyAutoGUI, pyperclip, selenium, OpenCV-Python, EasyOCR to do the 
 | init(screen\_ratio=(1, 1), enable\_ocr=False, ocr\_langs=['en'], enable\_gpu=False) | None | Initialize image and OCR system. screen\_ratio: define the element image resize ratio (width, height), see `init_img`; enable\_ocr: enable OCR system; ocr\_langs: OCR language; enable\_gpu: enable GPU for OCR system. |
 | wait(secs=1) | None | Wait secs seconds |
 | wait\_input(prompt='Input: ') | str | Wait console input |
+| shell(local=None, banner='RPA Shell') | None | Start an interactive Python shell, by default it will provide `rpa` and selenium's `By` module imported. `local` should be None or a dict that contains variables pass to the shell. |
 | os_name() | str | Return OS name: `Linux`, `Darwin`, `Windows` |
 | is_windows() | bool | Return is Windows |
 | is_linux() | bool | Return is Linux |
