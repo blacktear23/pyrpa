@@ -1,6 +1,5 @@
-import os
-import platform
 import getpass
+import platform
 from selenium import webdriver
 
 
