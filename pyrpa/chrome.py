@@ -175,5 +175,5 @@ def list_tabs(driver):
 
 def snap_page(driver, fname=None):
     if fname is None:
-        driver.get_screenshot_as_png()
+        return driver.get_screenshot_as_png()
     return driver.get_screenshot_as_file(fname)
