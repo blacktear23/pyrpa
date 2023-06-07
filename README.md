@@ -51,9 +51,9 @@ pyrpa combines PyAutoGUI, pyperclip, selenium, OpenCV-Python, EasyOCR to do the 
 
 | Function | Returns | Description |
 | -------- | ------- |----------- |
-| init\_img(element\_ratio=(1, 1)) | None | Initialize image identification base parameters. element\_ratio is define the element image resize ratio (width, height) |
+| init\_img(screen\_ratio=(1, 1)) | None | Initialize image identification base parameters. screen\_ratio is define the element image resize ratio (width, height) |
 | snap(fname=None) | None or Image object | Create screen snapshot. If fname setted will save screen snapshot to file. |
-| find\_image\_element(element, pmode='center', debug=True, threshold=None) | found: bool, x: int, y: int | Find element image position at screen, return whether founded and position. pmode: position mode, `'center'` means return center position of element image, `'topleft'` means top left position; threshold: confidence threshold for image find, None means use system default (0.8). |
+| find\_image\_element(element, pmode='center', debug=True, threshold=None) | found: bool, x: int, y: int | Find element image position at screen, return whether founded and position. pmode: position mode, it provide `'center'`, `'topleft'`, `'topright'`, `'centerleft'`, `'centerright'` ; threshold: confidence threshold for image find, None means use system default (0.8). |
 | find\_image\_element2(location, element, pmode='center', debug=True, threshold=None) | found: bool, x: int, y: int | Find element image position at screen with bigger location image found at screen, return whether founded and position. pmode: position mode; threshold: confidence threshold for image find. |
 | scale\_find\_image(element, ratio\_from=0.2, ratio\_to=4, step=0.1, pmode='center', debug=True, threshold=None) | found: bool, x: int, y: int | Find element image with multi scale mode, return whether founded and position. ratio\_from: start scale ratio; ratio\_to: end scale ratio; step: ratio increase ratio; pmode: position mode; threshold: confidence threshold for image find.|
 | click\_image(element, debug=True, threshold=None) | None | If element image founded in screen click it. Click position see `find_image_element` |
@@ -62,6 +62,18 @@ pyrpa combines PyAutoGUI, pyperclip, selenium, OpenCV-Python, EasyOCR to do the 
 | exists\_image2(location, element, debug=True, threshold=None) | found: bool | Return element image founded in screen. |
 | wait\_untile\_exists(element, next_op=None, max_wait=20, duration=1, debug=True, threshold=None) | None | Wait the element image exists in screen. next_op: operation that after element image founded, `None`: do nothing, `'click'`: click element, `'hover'`: move mouse over it, `'click_paste'`: click element and paste clipboard content; max\_wait: Check element image exists cycles; duration: if not found how many seconds it will wait; threshold: confidence threshold for image find. |
 | wait\_untile\_exists2(location, element, next_op=None, max_wait=20, duration=1, debug=True, threshold=None) | None |  Wait the element image exists in screen. next_op: operation that after element image founded, `None`: do nothing, `'click'`: click element, `'hover'`: move mouse over it, `'click_paste'`: click element and paste clipboard content; max\_wait: Check element image exists cycles; duration: if not found how many seconds it will wait; threshold: confidence threshold for image find. |
+
+> `pmode` parameter will control the position that returned. Below show the 5 position mode position at the image box.
+> 
+> ```
+>    topleft  +---------------------+  topright
+>             |                     |
+> centerleft  |        center       |  centerright
+>             |                     |
+>             +---------------------+
+> ```
+> 
+> `screen_ratio` is used by run PyRPA script cross platform. For example, the sample image is snaped from a Mac Laptop with Retina display, and you want to run the program at Linux Desktop with normal display. You can findout the Retina display's image size is twice than normal display snapshoted image. To make the program works `screen_ratio` is introduced to resize the sample image size to fix the other platform.
 
 ### GUI related functions
 
